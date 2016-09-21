@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.Date;
 
 /**
  * @author roy.zhuo
@@ -24,7 +25,10 @@ public class TestJpa {
         Student student = new Student();
         student.setName("roy");
         student.setAddress("xiamen");
+        student.setBirthday(new Date());
+        student.setCreateTime(new Date());
         entityManager.persist(student);
+
         //事物提交
         entityTransaction.commit();
         //关闭manage

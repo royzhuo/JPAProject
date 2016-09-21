@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="JPAProject" />
           <factory-entry name="noname-persistence.xml@118" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
@@ -104,7 +105,16 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../UserManager/web/WEB-INF/lib/mysql-connector-java-5.0.4-bin.jar!/" />
+          <root url="jar://$USER_HOME$/Documents/personal/roy/tools/mysql-connector-java-5.1.26-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Documents/personal/roy/tools/junit4.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
