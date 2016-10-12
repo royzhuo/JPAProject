@@ -20,7 +20,12 @@ public class Iterms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-
+    /*
+    * name:中间表的名称
+    * joinColumns:@JoinColumn(name当前类在中间表的外健，referencedColumnName中间表的外健直线当前类的主键
+    * inverseJoinColumns:@JoinColumn(name另一个类在中间表的外健，referencedColumnName中间表的外健直线另一个类的主键
+    *
+    * */
     @JoinTable(name = "Iterms_Category",
         joinColumns = {@JoinColumn(name = "Iterm_id", referencedColumnName = "ID")
         },
