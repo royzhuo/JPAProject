@@ -29,6 +29,7 @@ public class Student {
     private Date createTime;
     @Temporal(TemporalType.DATE)
     private Date birthday;
+
     public Student(String name, String address) {
         this.name = name;
         this.address = address;

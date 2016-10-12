@@ -1,6 +1,14 @@
 package com.test;
 
 import com.domain.Student;
+import com.m2m.Category;
+import com.m2m.Iterms;
+import com.m2o.Customer;
+import com.m2o.Order;
+import com.o2m.Dept;
+import com.o2m.Employee;
+import com.o2o.School;
+import com.o2o.SchoolBoss;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +18,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author roy.zhuo
@@ -178,5 +188,165 @@ public class TestEntityManager {
         student = entityManager.find(Student.class, 3);
         entityManager.refresh(student);
     }
+
+
+    //关联关系
+
+    //1.单向多对一
+    @Test
+    public void testM2o() {
+        Customer customer = new Customer();
+        customer.setName("roy");
+        customer.setMoney(200);
+
+        Order order1 = new Order();
+        order1.setName("iphone");
+        order1.setPrice(10);
+
+        Order order2 = new Order();
+        order2.setName("mac");
+        order2.setPrice(20);
+
+        //配置关联关系
+        order1.setCustomer(customer);
+        order2.setCustomer(customer);
+
+        entityManager.persist(customer);
+        entityManager.persist(order1);
+        entityManager.persist(order2);
+
+    }
+
+    //默认左外链接，获取多的一方
+    @Test
+    public void testM2OFind() {
+        Order order = entityManager.find(Order.class, 2);
+        System.out.println("order:" + order.getName());
+        System.out.println("customer:" + order.getCustomer().getName());
+    }
+
+    @Test
+    public void testM2ORemove() {
+        Order order = entityManager.find(Order.class, 1);
+        entityManager.remove(order);
+    }
+
+    @Test
+    public void testM2OUpdate() {
+        Order order = entityManager.find(Order.class, 2);
+        order.setName("sssss");
+    }
+
+    @Test
+    public void testO2M() {
+        Employee employee = new Employee();
+        employee.setName("nick");
+        Employee employee2 = new Employee();
+        employee2.setName("leo");
+
+        Dept dept = new Dept();
+       /* try {
+            String name = new String(("安全").getBytes("ISO-8859-1"), "UTF-8");
+            dept.setName(name);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }*/
+        dept.setName("secureti");
+
+        Set<Employee> employees = new HashSet<>();
+        employees.add(employee);
+        employees.add(employee2);
+
+        dept.setEmployees(employees);
+
+        entityManager.persist(employee);
+        entityManager.persist(employee2);
+        entityManager.persist(dept);
+
+    }
+
+    @Test
+    public void testO2MFind() {
+        Dept dept = entityManager.find(Dept.class, 1);
+        System.out.println(dept.getName());
+        System.out.println(dept.getEmployees().iterator().next().getName());
+
+    }
+
+    //默认情况下，删除只是将多的一方外健滞空，删除一的一方
+    //可以通过设置级联关系来进行级联删除
+    @Test
+    public void testO2MRemove() {
+
+        Dept dept = entityManager.find(Dept.class, 2);
+        entityManager.remove(dept);
+
+    }
+
+    @Test
+    public void testO2MUpdate() {
+        Dept dept = entityManager.find(Dept.class, 1);
+
+        dept.getEmployees().iterator().next().setName("roy");
+
+    }
+
+    //one to one
+
+    @Test
+    public void testOneToOne() {
+        School school = new School();
+        school.setName("number ten school");
+        SchoolBoss schoolBoss = new SchoolBoss();
+        schoolBoss.setName("wuya");
+
+        school.setSchoolBoss(schoolBoss);
+        schoolBoss.setSchool(school);
+
+        entityManager.persist(schoolBoss);
+        entityManager.persist(school);
+    }
+
+    @Test
+    public void testOnetoOneFind() {
+        School school = entityManager.find(School.class, 1);
+        System.out.println("school name:" + school.getName());
+        System.out.println("--------------------");
+        System.out.println("sb:" + school.getSchoolBoss().getClass().getName());
+    }
+
+    //多对多
+    @Test
+    public void testManayToMany() {
+        Iterms iterms = new Iterms();
+        iterms.setName("apple");
+        Iterms iterms1 = new Iterms();
+        iterms1.setName("orange");
+        Category category = new Category();
+        category.setName("food");
+        Category category1 = new Category();
+        category1.setName("fruit");
+
+        //设置关联关系
+        iterms.getCategories().add(category);
+        iterms1.getCategories().add(category1);
+        category.getItermses().add(iterms);
+        category1.getItermses().add(iterms1);
+
+        //保存
+        entityManager.persist(iterms);
+        entityManager.persist(iterms1);
+        entityManager.persist(category);
+        entityManager.persist(category1);
+    }
+
+    //默认是懒加载
+    @Test
+    public void testM2MFind() {
+        Iterms iterms = entityManager.find(Iterms.class, 1);
+        System.out.println("name:" + iterms.getName());
+        System.out.println("size:" + iterms.getCategories().size());
+    }
+
 
 }

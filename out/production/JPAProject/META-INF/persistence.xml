@@ -5,6 +5,14 @@
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <!--配置持久化对象-->
         <class>com.domain.Student</class>
+        <class>com.m2o.Customer</class>
+        <class>com.m2o.Order</class>
+        <class>com.o2m.Employee</class>
+        <class>com.o2m.Dept</class>
+        <class>com.o2o.SchoolBoss</class>
+        <class>com.o2o.School</class>
+        <class>com.m2m.Iterms</class>
+        <class>com.m2m.Category</class>
         <!--配置数据库连接的基本属性-->
         <properties>
             <!-- 配置数据库连接属性 -->
