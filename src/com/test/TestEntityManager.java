@@ -348,5 +348,23 @@ public class TestEntityManager {
         System.out.println("size:" + iterms.getCategories().size());
     }
 
+    //测试二级缓存
+    @Test
+    public void testSecondLevelCache() {
+        //一级缓存
+//        Student student = entityManager.find(Student.class, 1);
+//        student = entityManager.find(Student.class, 1);
+        //二级缓存
+        Student student = entityManager.find(Student.class, 1);
+        transaction.commit();
+        entityManager.close();
+
+
+        entityManager = entityManagerFactory.createEntityManager();
+        transaction = entityManager.getTransaction();
+        transaction.begin();
+        Student student1 = entityManager.find(Student.class, 1);
+    }
+
 
 }

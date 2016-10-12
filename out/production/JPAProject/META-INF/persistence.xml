@@ -13,6 +13,7 @@
         <class>com.o2o.School</class>
         <class>com.m2m.Iterms</class>
         <class>com.m2m.Category</class>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <!--配置数据库连接的基本属性-->
         <properties>
             <!-- 配置数据库连接属性 -->

@@ -13,6 +13,14 @@
         <class>com.o2o.School</class>
         <class>com.m2m.Iterms</class>
         <class>com.m2m.Category</class>
+        <!--配置二级缓存
+ALL:所以实体类都配置二级缓存,
+ NONE:所有实体类都不配置二级缓存,
+  ENABLE_SELECTIVE:为@Cacheable(value = true)的类配置二级缓存,
+   DISABLE_SELECTIVE:@Cacheable(value = false)的类不配置二级缓存,其他都缓存
+    UNSPECIFIED:默认值，jpa产品默认值将被使用
+        -->
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <!--配置数据库连接的基本属性-->
         <properties>
             <!-- 配置数据库连接属性 -->

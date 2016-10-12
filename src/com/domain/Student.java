@@ -1,5 +1,6 @@
 package com.domain;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import java.util.Date;
 /**
  * @author roy.zhuo
  */
+@Cacheable(value = true)
 @Entity
 @Table(name = "student")
 public class Student {
