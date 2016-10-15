@@ -32,6 +32,10 @@ ALL:所以实体类都配置二级缓存,
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!--配置hibernate二级缓存-->
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
         </properties>
     </persistence-unit>
 

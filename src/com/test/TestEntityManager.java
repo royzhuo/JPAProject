@@ -9,6 +9,7 @@ import com.o2m.Dept;
 import com.o2m.Employee;
 import com.o2o.School;
 import com.o2o.SchoolBoss;
+import org.hibernate.ejb.QueryHints;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +18,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -137,7 +140,7 @@ public class TestEntityManager {
     public void testMeger3() {
         Student student = new Student();
         student.setName("Roy");
-        student.setAddress("7777777");
+        student.setAddress("77788877");
         student.setCreateTime(new Date());
         student.setBirthday(new Date());
         student.setId(7);
@@ -364,6 +367,50 @@ public class TestEntityManager {
         transaction = entityManager.getTransaction();
         transaction.begin();
         Student student1 = entityManager.find(Student.class, 1);
+    }
+
+    @Test
+    public void testJpqlHelloWorld() {
+        //占位符由一开始
+        Query query = entityManager.createQuery("from Student where id>=?").setParameter(1, 2);
+        int firstResult = query.getFirstResult();
+        List<Student> students = query.getResultList();
+        System.out.println("firstResult:" + firstResult);
+        System.out.println("students:" + students);
+    }
+
+    @Test
+    public void testQueryCacher() {
+        //使用jpql查询缓存,前提配置文件中要配置查询缓存
+        String jpa1 = "from Student where id>=?";
+        Query query = entityManager.createQuery(jpa1).setHint(QueryHints.HINT_CACHEABLE, true);
+        query.setParameter(1, 2);
+        int firstResult = query.getFirstResult();
+        List<Student> students = query.getResultList();
+
+        query = entityManager.createQuery(jpa1).setHint(QueryHints.HINT_CACHEABLE, true);
+        query.setParameter(1, 2);
+        firstResult = query.getFirstResult();
+        students = query.getResultList();
+
+    }
+
+    @Test
+    public void testJpqlOrderBy() {
+        String jpa1 = "from Student where id>=? order by id desc ";
+        Query query = entityManager.createQuery(jpa1).setHint(QueryHints.HINT_CACHEABLE, true);
+        query.setParameter(1, 2);
+        List<Student> students = query.getResultList();
+        System.out.println(students);
+    }
+
+    @Test
+    public void testJpqlGruopBy() {
+        String sql = "select id from  Student group by name having name='Roy' ";
+        Query query = entityManager.createQuery(sql).setHint(QueryHints.HINT_CACHEABLE, true);
+        List<Integer> students = query.getResultList();
+        System.out.println(students);
+
     }
 
 
